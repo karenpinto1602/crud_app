@@ -24,15 +24,7 @@ app.use('/css',express.static(path.resolve(__dirname,"assets/css")))
 app.use('/img',express.static(path.resolve(__dirname,"assets/img")))
 app.use('/js',express.static(path.resolve(__dirname,"assets/js")))
 
-app.get('/',(req,res)=>{
-    //res.send("Message being displayed");
-    res.render('index')
-});
-app.get('/add-user',(req,res)=>{
-    res.render('add_user')
-});
-app.get('/update-user',(req,res)=>{
-    res.render('update_user')
-});
+//load Routers
+app.use('/',require('./server/routes/router'));
 
 app.listen(PORT,()=>{console.log(`Server is running on http://localhost:${PORT}`)});
