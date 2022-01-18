@@ -16,4 +16,16 @@
     d. Copy the connection string and save it in config.env <br/>
     e. Enter the password and databse name in the mongodb_uri <br/>
 11. Create connections in database/connection.js
+12. Create APIs using CRUD operations
+13. Create routes, controllers and API (all under server folder)
+
+
+
+
+
+<br/>
+### Error Codes
+
+400: Empty body
+500: Error while creating a new user 
 
