@@ -20,7 +20,8 @@ exports.create = (req,res) => {
    user
     .save(user)
     .then(data => {
-        res.send(data)
+        //res.send(data)
+        res.redirect('/')
     })
     .catch(err => {
         res.status(500).send({message: err.message || "Some error occured while creating a create operation"});
@@ -29,22 +30,72 @@ exports.create = (req,res) => {
 
 //Retrieve and return all users/ retrieve and return a single user
 exports.find = (req,res) => {
-    Userdb.find()
-        .then(user => {
-            res.send(user)
-        })
-        .catch(err => {
-            res.status(500).send({message: err.message || "Error Occured while retrieving user information"})
-        })
+    
+    if(req.query.id){ 
+        /* http://localhost:3000/api/users?id=61e73e59d60787f9863d661d */
+        const id = req.query.id;
+        Userdb.findById(id)
+            .then(data =>{
+                if(!data){
+                    res.status(404).send({message:`Uer with id:${id} does not exit`});
+                }
+                else{
+                    res.send(data)
+                }
+            })
+            .catch(err =>{
+                res.status(500).send({message: `Error retrieving user with id:${id}`})
+            })
+    }
+    else{
+        Userdb.find()
+            .then(user => {
+                res.send(user)
+            })
+            .catch(err => {
+                res.status(500).send({message: err.message || "Error Occured while retrieving user information"})
+            })
+    }
 }
 
 //Update a new identified user by user id
 exports.update = (req,res) => {
+    if(!req.body){
+        return res.status(400).send({message: "Data to update cannot be empty"});
+    }
 
+    const id = req.params.id;
+    Userdb.findByIdAndUpdate(id,req.body,{useFindAndModify:false})
+        .then(data =>{
+            if(!data){
+                res.status(404).send({message: `Could not Update user with id:${id}. Maybe user not found`})
+            }
+            else{
+                res.send(data)
+            }
+        })
+        .catch(err => {
+            res.status(500).send({message: "Error in update user information"})
+        })
 }
 
 //Delete a user with a specified user id in the request
 exports.delete = (req,res) => {
-
+    
+    const id = req.params.id;
+    Userdb.findByIdAndDelete(id)
+        .then(data =>{
+            if(!data){
+                res.status(404).send({message: `Could not DElete user with id:${id}. Maybe user not found`})
+            }
+            else{
+                res.send({
+                    message: "User was deleted successfully"
+                })
+            }
+        })
+        .catch(err => {
+            res.status(500).send({message: "Error in Deleting user"})
+        }) 
 }
 

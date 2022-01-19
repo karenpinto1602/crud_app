@@ -18,14 +18,13 @@
 11. Create connections in database/connection.js
 12. Create APIs using CRUD operations
 13. Create routes, controllers and API (all under server folder)
-
-
-
-
+14. Create, Update and Delete features added in assets/js/index.js
 
 <br/>
 ### Error Codes
 
-400: Empty body
-500: Error while creating a new user 
+400: Empty body <br/>
+500: Error while creating/updating a user <br/>
+404: User of that 'id' not found <br/>
+
 
